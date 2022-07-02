@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public Rigidbody2D rb;
-    public int speed;
-    public int jumppower;
+    [SerializeField] private GameObject _visual;
+    [SerializeField] private float _movementSpeed;
+    [SerializeField] private Animator _animator;
+    [SerializeField] Rigidbody2D _rigidbody;
+    [SerializeField] private float _jumpForce;
+
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask whatIsGround;
@@ -15,29 +18,43 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.LeftArrow))
-        {
-            rb.velocity = new Vector2(-speed, rb.velocity.y);
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            rb.velocity = new Vector2(speed, rb.velocity.y);
-        }
-        if (Input.GetKey(KeyCode.Space) && onGround)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumppower);
-        }
-    }
+        float horizontal = Input.GetAxis("Horizontal");
+        Movement(horizontal);
+        Animation(horizontal);
 
+    }
     void FixedUpdate()
     {
         onGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
     }
+
+    public void Movement(float horizontal)
+    {
+        if (Input.GetButtonDown("Jump") && onGround)
+        {
+            _rigidbody.AddForce(Vector2.up * _jumpForce);
+        }
+        transform.position += new Vector3(_movementSpeed, 0, 0) * horizontal * Time.deltaTime;
+    }
+    public void Animation(float horizontal)
+    {
+        _animator.SetFloat("MovementSpeed", Mathf.Abs(horizontal));
+        if (horizontal > 0)
+        {
+            _visual.transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if (horizontal < 0)
+        {
+            _visual.transform.localScale = new Vector3(-1, 1, 1);
+        }
+    }
+
+
 }
