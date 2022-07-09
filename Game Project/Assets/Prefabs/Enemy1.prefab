@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ec2d1aaa0ee97642891836d47c139c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Blood: {fileID: 8816727651644009641, guid: f2818a19cb27c70459694a1aff42fd9e, type: 3}
 --- !u!70 &2298469727924701984
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

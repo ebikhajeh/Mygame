@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public float groundCheckRadius;
     public LayerMask whatIsGround;
     private bool onGround;
+    public int fruits;
 
     // Start is called before the first frame update
     void Start()
