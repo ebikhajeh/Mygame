@@ -16,10 +16,14 @@ public class Player : MonoBehaviour
     private bool onGround;
     public int fruits;
 
+    public float startx, starty;
+    public GameObject Blood;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        startx = _visual.transform.position.x;
+        starty = _visual.transform.position.y;
     }
 
     // Update is called once per frame
@@ -55,6 +59,23 @@ public class Player : MonoBehaviour
         {
             _visual.transform.localScale = new Vector3(-1, 1, 1);
         }
+    }
+
+    public void Death()
+    {
+        StartCoroutine("respawndelay");
+    }
+
+    public IEnumerator respawndelay()
+    {
+        Instantiate(Blood, transform.position, transform.rotation);
+        enabled = false;
+        GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+        GetComponent<Renderer>().enabled = false;
+        yield return new WaitForSeconds(0);
+        transform.position = new Vector2(startx, starty);
+        GetComponent<Renderer>().enabled = true;
+        enabled = true;
     }
 
 
